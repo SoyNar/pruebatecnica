@@ -83,3 +83,21 @@ También he usado **GitHub Actions**, configurando workflows que funcionan y eje
 Esto me ayuda a integrar mejor el código y depurarlo.
 
 ## Instrucciones de uso de esta App
+
+Luego de correr la aplicacion 
+puedes correr la app:
+## usando el comando de mvn
+
+``` mvn spring-boot:run ``` 
+
+se puede acceder a los endpoinst a través de 
+## swagger
+http://localhost:8080/swagger-ui/index.html
+
+## traves de la consola H2
+ http://localhost:8080/h2-console
+ - JDBC URL: jdbc:h2:mem:demo
+ - User: sa
+ - Password: (déjalo vacío)
+
+
