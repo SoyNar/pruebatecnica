@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.boot.beanvalidation.IntegrationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +50,16 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
+    @Operation(
+            summary = "Get a product by ID",
+            description = "This endpoint retrieves the details of a product by its ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = ProductsResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content)
+    })
     @GetMapping("/product/{id}")
     public  ResponseEntity<ProductsResponseDto> getProductById(
             @PathVariable  Integer id){
@@ -58,12 +67,34 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
+    @Operation(
+            summary = "Update a product",
+            description = "This endpoint updates the details of an existing product by its ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product updated successfully",
+                    content = @Content(schema = @Schema(implementation = ProductsResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid input data",
+                    content = @Content)
+    })
     @PutMapping("/update/{id}")
     public ResponseEntity<ProductsResponseDto> updateProduct (@RequestBody UpdateProductRequestDto requestDto, @PathVariable Integer id){
         ProductsResponseDto responseDto = this.productsService.updateProduct(requestDto,id);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
+    @Operation(
+            summary = "Delete a product",
+            description = "This endpoint deletes a product by its ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product deleted successfully",
+                    content = @Content(schema = @Schema(implementation = ProductsResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content)
+    })
     @DeleteMapping("/delete/{id}")
     public  ResponseEntity<ProductsResponseDto> deleteProduct(@PathVariable Integer id){
         ProductsResponseDto responseDto = this.productsService.deleteProduct(id);
