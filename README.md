@@ -96,7 +96,7 @@ http://localhost:8080/swagger-ui/index.html
 
 ## traves de la consola H2
  http://localhost:8080/h2-console
- - JDBC URL: jdbc:h2:mem:demo
+ - JDBC URL: jdbc:h2:file:~/demo
  - User: sa
  - Password: (déjalo vacío)
 

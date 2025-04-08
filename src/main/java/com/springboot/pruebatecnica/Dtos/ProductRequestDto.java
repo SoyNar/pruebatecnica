@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterProductRequestDto {
+public class ProductRequestDto {
     @NotNull(message = "Este campo no puede estar vacio")
     @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúñÑ ]{2,50}$", message = "El nombre solo puede contener letras y espacios")
     private String name;

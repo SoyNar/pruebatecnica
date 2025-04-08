@@ -1,0 +1,74 @@
+package com.springboot.pruebatecnica.Controllers;
+
+import com.springboot.pruebatecnica.Dtos.ProductRequestDto;
+import com.springboot.pruebatecnica.Dtos.ResponseDtos.ProductsResponseDto;
+import com.springboot.pruebatecnica.Dtos.UpdateProductRequestDto;
+import com.springboot.pruebatecnica.Services.IServices.IProductsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.boot.beanvalidation.IntegrationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RequestMapping("api/products")
+@RestController
+@RequiredArgsConstructor
+public class ProductController {
+
+    private final IProductsService productsService;
+
+    @Operation(
+            summary = "Register a new product",
+            description = "This endpoint registers a new product with name, description and price."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Product created successfully",
+                    content = @Content(schema = @Schema(implementation = ProductsResponseDto.class))),
+            @ApiResponse(responseCode = "409", description = "Product with the same name already exists",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid input data",
+                    content = @Content)
+    })
+    @PostMapping("/register-product")
+    public ResponseEntity<ProductsResponseDto> registerProduct(
+           @Valid @RequestBody ProductRequestDto requestDto){
+        ProductsResponseDto responseDto = productsService.registerProduct(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductsResponseDto>> getAllProduct(){
+        List<ProductsResponseDto> responseDto = this.productsService.getAllProduct();
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @GetMapping("/product/{id}")
+    public  ResponseEntity<ProductsResponseDto> getProductById(
+            @PathVariable  Integer id){
+        ProductsResponseDto responseDto = this.productsService.getProductById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ProductsResponseDto> updateProduct (@RequestBody UpdateProductRequestDto requestDto, @PathVariable Integer id){
+        ProductsResponseDto responseDto = this.productsService.updateProduct(requestDto,id);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public  ResponseEntity<ProductsResponseDto> deleteProduct(@PathVariable Integer id){
+        ProductsResponseDto responseDto = this.productsService.deleteProduct(id);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+
+}
