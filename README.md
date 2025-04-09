@@ -130,10 +130,4 @@ En este link, luego de correr la app
 Alli estara documentada tambien
 http://localhost:8080/swagger-ui/index.html
 
-### Accede traves de la consola H2
- http://localhost:8080/h2-console
- - JDBC URL: jdbc:h2:file:~/demo
- - User: sa
- - Password: (déjalo vacío)
-
 
