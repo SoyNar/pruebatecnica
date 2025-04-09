@@ -84,21 +84,26 @@ Esto me ayuda a integrar mejor el código y depurarlo.
 
 ## Instrucciones de uso de esta App
 
-Luego de correr la aplicacion 
+### si accedes a través del repo
+- clonar el repositorio
+- ``` git clone git@github.com:SoyNar/pruebatecnica.git ```
+- reconstruir la aplicación para descargar las dependencias
+- ``` mvn clean install -DskipTests```
+### Luego de correr la aplicacion 
 puedes correr la app:
-## usando el comando de mvn
+### usando el comando de mvn
 
 ``` mvn spring-boot:run ```
 o simplemente desde tu IDE (como IntelliJ IDEA, Eclipse o VS Code),
  haciendo clic en el botón Run
 
-se puede acceder a los endpoinst a través de 
-## swagger
+### Accede a los endpoinst a través de 
+#### swagger
 En este link, luego de correr la app
 Alli estara documentada tambien
 http://localhost:8080/swagger-ui/index.html
 
-## traves de la consola H2
+### Accede traves de la consola H2
  http://localhost:8080/h2-console
  - JDBC URL: jdbc:h2:file:~/demo
  - User: sa
