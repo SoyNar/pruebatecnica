@@ -28,6 +28,23 @@ Además de esto, usaría paginación para no traer todos los resultados de la ba
 Por último, configuraría el pool de conexiones con HikariCP, evitando las sobrecargas al abrir y cerrar conexiones constantemente.
 
 ---
+## 4. Analiza el log y describe cuál es el problema principal.
+
+○​ ¿Cómo resolverías el problema que encontraste en el log?​
+creo que el principal error esta en que la aplicación no logra mantener una conexión estable
+con la base de datos, lo cual genera interrupciones en el servicio y errores en las operaciones
+que requieren acceso a datos
+La aplicación esta alcanzado el maximo de conexiones permitidas por el pool
+
+## ¿Cómo resolverías el problema que encontraste en el log?
+Lo que haré sera:
+- aumentar el tiempo maximo de conexiones si la app tiene alta demanda
+- ajustar el tiempo de espera (connectionTimeout) para permitir que las conexiones
+se establezcan en condiciones de carga.
+- Usar bloques try-with-resources para asegurar que todas las conexiones, sentencias y resultados se cierren adecuadamente.
+ y revisar el código para evitar fugas de conexión (por ejemplo, conexiones abiertas sin cerrar en casos de error).
+
+
 
 ## 5. Ejercicio de integración AWS simulado
 
@@ -68,7 +85,18 @@ Esto mantiene las credenciales seguras y centraliza la gestión de permisos.
 
 ## 6. Pregunta sobre Microservicios
 
-*(Contenido no proporcionado)*
+Para tener una comunicacion optima entre microservicios usaria una comunicación asincrona
+donde los microservicios no tengan que esperar las repuesta del receptor ,  este acoplamiento temporal
+puede hacer que el sistema no tenga una alta escalabilidad y puede generarse una sobrecarga afectando 
+la disponibilidad de toda la aplicación
+
+
+Las ventajas al usar Rest, es simple y facil de implemetar,tiene buen soporte, desventajas: mayor latencia, no es optimo para microservicios en alto rendimiento
+grpc : ventajas Menos consumo de ancho de banda, desventajas: curva de aprendizaje alta,
+
+Con RabbitMQ se puede lograr comunicación asincronica entre microservicios
+escalabilidad alta, desacoplamiento
+Desventaja: puede ser mas dificil de implementar, la  latencia es variable.
 
 ---
 
