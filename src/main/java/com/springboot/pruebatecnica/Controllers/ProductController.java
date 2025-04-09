@@ -1,10 +1,10 @@
 package com.springboot.pruebatecnica.Controllers;
-
 import com.springboot.pruebatecnica.Dtos.ProductRequestDto;
 import com.springboot.pruebatecnica.Dtos.ResponseDtos.ProductsResponseDto;
 import com.springboot.pruebatecnica.Dtos.UpdateProductRequestDto;
 import com.springboot.pruebatecnica.Services.IServices.IProductsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RequestMapping("api/products")
@@ -36,7 +35,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid input data",
                     content = @Content)
     })
-    @PostMapping("/register-product")
+    @PostMapping
     public ResponseEntity<ProductsResponseDto> registerProduct(
            @Valid @RequestBody ProductRequestDto requestDto){
         ProductsResponseDto responseDto = productsService.registerProduct(requestDto);
@@ -44,7 +43,15 @@ public class ProductController {
 
     }
 
-    @GetMapping("/products")
+    @Operation(
+            summary = "Get all products",
+            description = "This endpoint retrieves a list of all registered products."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of products retrieved successfully",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductsResponseDto.class))))
+    })
+    @GetMapping
     public ResponseEntity<List<ProductsResponseDto>> getAllProduct(){
         List<ProductsResponseDto> responseDto = this.productsService.getAllProduct();
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
@@ -60,7 +67,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product not found",
                     content = @Content)
     })
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     public  ResponseEntity<ProductsResponseDto> getProductById(
             @PathVariable  Integer id){
         ProductsResponseDto responseDto = this.productsService.getProductById(id);
@@ -79,7 +86,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid input data",
                     content = @Content)
     })
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ProductsResponseDto> updateProduct (@RequestBody UpdateProductRequestDto requestDto, @PathVariable Integer id){
         ProductsResponseDto responseDto = this.productsService.updateProduct(requestDto,id);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
@@ -95,7 +102,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product not found",
                     content = @Content)
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public  ResponseEntity<ProductsResponseDto> deleteProduct(@PathVariable Integer id){
         ProductsResponseDto responseDto = this.productsService.deleteProduct(id);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);

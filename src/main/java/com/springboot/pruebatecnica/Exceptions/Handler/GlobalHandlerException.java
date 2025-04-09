@@ -1,5 +1,4 @@
 package com.springboot.pruebatecnica.Exceptions.Handler;
-
 import com.springboot.pruebatecnica.Exceptions.Customs.BusinessException;
 import com.springboot.pruebatecnica.Exceptions.Customs.ProductAlreadyExistsException;
 import com.springboot.pruebatecnica.Exceptions.Customs.ProductoNotFoundException;
@@ -12,9 +11,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -49,7 +46,7 @@ public class GlobalHandlerException {
     public ResponseEntity<ErrorResponse> ProductNotFoundExceptionHandler(ProductoNotFoundException exception) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .error(exception.getMessage())
-                .message("Product Not Found")
+                .message("Error: this product could not be found, check your request")
                 .code(HttpStatus.NOT_FOUND.value())
                 .date(LocalDate.now())
                 .build();
@@ -61,7 +58,7 @@ public class GlobalHandlerException {
     public ResponseEntity<ErrorResponse> ProductNotFoundExceptionHandler(ProductAlreadyExistsException exception) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .error(exception.getMessage())
-                .message("Product Not Found")
+                .message("The product with this name already exists, try with another name")
                 .code(HttpStatus.CONFLICT.value())
                 .date(LocalDate.now())
                 .build();
@@ -84,7 +81,7 @@ public class GlobalHandlerException {
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception exception) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .error(exception.getMessage())
-                .message("internal server error")
+                .message("there was a server error, please try again later.")
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .date(LocalDate.now())
                 .build();
@@ -95,7 +92,7 @@ public class GlobalHandlerException {
     public ResponseEntity<ErrorResponse> handleGeneralException(BusinessException exception) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .error(exception.getMessage())
-                .message("internal server error")
+                .message("there was a server error, please try again later.")
                 .code(HttpStatus.BAD_REQUEST.value())
                 .date(LocalDate.now())
                 .build();

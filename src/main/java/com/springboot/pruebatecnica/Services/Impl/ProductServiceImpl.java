@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,7 @@ public class ProductServiceImpl implements IProductsService {
         boolean isExists = this.productsRepository.existsByName(requestDto.getName());
         if (isExists) {
             log.warn("Intento de registrar producto duplicado: {}", requestDto.getName());
-            throw new ProductAlreadyExistsException("EL nombrede productoya existe");
+            throw new ProductAlreadyExistsException("the product name already exists");
         }
         if(requestDto.getPrice().compareTo(BigDecimal.ZERO)<=0){
             log.warn("Intento de registrar producto con precio no indicado {}", requestDto.getPrice());
@@ -46,7 +45,6 @@ public class ProductServiceImpl implements IProductsService {
                 .build();
         this.productsRepository.save(products);
         log.info("Producto guardado de forma existosa {}", products.getId());
-
         return mapToProductResponseDto(products);
     }
 
@@ -94,12 +92,11 @@ public class ProductServiceImpl implements IProductsService {
         if (requestDto.getPrice() != null) {
             if (requestDto.getPrice().compareTo(BigDecimal.ZERO) < 0) {
                 log.warn("Intento de actualizar precio con valor negativo: {}", requestDto.getPrice());
-                throw new IllegalArgumentException("El precio no puede ser negativo");
+                throw new IllegalArgumentException("The price cannot be negative");
             }
             product.setPrice(requestDto.getPrice());
             log.debug("Precio actualizado: {} -> {}", oldPRice, requestDto.getPrice());
         }
-
         this.productsRepository.save(product);
         log.info("Producto con ID: {} actualizado exitosamente", id);
         return mapToProductResponseDto(product);
@@ -125,7 +122,7 @@ public class ProductServiceImpl implements IProductsService {
             return responseDto;
         }catch (Exception e){
             log.error("Error al eliminar el producto {} {}", product.getId(), e.getMessage());
-            throw new RuntimeException("Error to delete product", e);
+            throw new RuntimeException("Error when deleting product", e);
         }
     }
 

@@ -88,10 +88,14 @@ Luego de correr la aplicacion
 puedes correr la app:
 ## usando el comando de mvn
 
-``` mvn spring-boot:run ``` 
+``` mvn spring-boot:run ```
+o simplemente desde tu IDE (como IntelliJ IDEA, Eclipse o VS Code),
+ haciendo clic en el botón Run
 
 se puede acceder a los endpoinst a través de 
 ## swagger
+En este link, luego de correr la app
+Alli estara documentada tambien
 http://localhost:8080/swagger-ui/index.html
 
 ## traves de la consola H2
